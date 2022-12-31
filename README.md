@@ -1,4 +1,3 @@
-# dev-studies
+# My Dev Studies
 
-
-test git push
+- Study notes to myself to use as a reference for all things dev
