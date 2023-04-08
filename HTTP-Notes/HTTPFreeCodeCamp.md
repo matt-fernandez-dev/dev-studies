@@ -42,4 +42,70 @@
   * Not all protocols end with "//" like HTTP
     * Example: mailto:noreply@testdomain.com
   * Ports are virtual "hubs" managed by the operating system that allow us to segment incoming requests/data streams to the server
+* ## Chapter 4 - Async Javascript
+    ```
+    const waitTimeMs = 100
+    const callback = () => {
+        console.log("I print second")
+    }
+
+    console.log("I print first")
+    setTimeout(callback, waitTimeMs)
+    console.log("I print third")
+
+    // --------- Output ----------
+
+    I print first
+    I print third
+    ```
+  * The above code doesn't actually log "I print second" to the console because the program terminates after logging "I print third"; There is not enough time to wait for the timeout
+  ```
+    const waitTimeMs = 100
+    const callback = () => {
+        console.log("I print second")
+    }
+
+    console.log("I print first")
+    setTimeout(callback, waitTimeMs)
+    console.log("I print third")
+
+    await sleep(waitTimeMs + 5)
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms))
+    }
+
+    // --------- Output ----------
+
+    I print first
+    I print third
+    I print second
+  ```
+  * Asynchronous programming allows for threads to be executing at the same time
+  * Essentially every time an HTTP request is made, it should be done asynchronously, so that client can keep executing while waiting on response from the server
+  * Promises in Javascript
+    * The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value
+    * Allows async methods to return values like synchronous methods; instead of returning the final value they return a promise to supply the value at some point in the future
+    * A Promise object is in one of three states
+      * 1. `pending` : initial state, neither fulfilled nor rejected
+      * 2. `fulfilled` : meaning that the operation was completed successfully
+      * 3. `rejected` : meaning that the operation failed.
+    * Declaring a Promise
+    ```
+    const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (getRandomBool()) {
+                resolve("resolved!")
+            } else {
+                reject("rejected!")
+            }
+        }, 1000)
+
+        
+    })
+
+    function getRandomBool() {
+        return Math.random() < .5
+    }
+    ```
+  * If a promise resolves, its `.then` function will execute. If the promise rejects, its `.catch` method will execute
 
