@@ -7,3 +7,4 @@
 ## Sections
 
 1. [Svelte](Svelte/README.md)
+2. [HTTP Notes](HTTP-Notes/README.md)
